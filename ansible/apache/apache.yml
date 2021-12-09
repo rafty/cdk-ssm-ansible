@@ -1,0 +1,13 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Apache install
+      yum: name=httpd state=latest
+    - name: Start up Apache
+      service: name=httpd state=started enabled=yes
+    - name: Start confirmation Apache
+      shell: ps aux | grep httpd
+      register: ps_result
+      changed_when: false
+    - debug: var=ps_result.stdout_lines
+      when: ps_result
