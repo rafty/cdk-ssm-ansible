@@ -73,7 +73,6 @@ class SsmAssociationConstruct(Construct):
             )
         ])
         ssm_ansible.add_override('Parameters.InstallDependencies', ['True'])
-        # TODO ansible/playbook.yml
         ssm_ansible.add_override('Parameters.PlaybookFile', ['ansible/playbook.yml'])
         ssm_ansible.add_override('Parameters.ExtraVariables', ['SSM=True'])
         ssm_ansible.add_override('Parameters.Check', ['False'])
