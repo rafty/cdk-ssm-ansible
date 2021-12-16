@@ -9,7 +9,8 @@ class VpcConstruct(Construct):
         self._vpc = aws_ec2.Vpc(
             scope=self,
             id="VPC",
-            max_azs=2,
+            max_azs=1,
+            nat_gateways=1,
             cidr="10.10.0.0/16",
             subnet_configuration=[
                 aws_ec2.SubnetConfiguration(
@@ -20,8 +21,11 @@ class VpcConstruct(Construct):
                     subnet_type=aws_ec2.SubnetType.PRIVATE_WITH_NAT,
                     name="Private",
                     cidr_mask=24),
-            ],
-            nat_gateways=2,
+                # aws_ec2.SubnetConfiguration(
+                #     subnet_type=aws_ec2.SubnetType.PRIVATE_ISOLATED,
+                #     name="Private",
+                #     cidr_mask=24),
+            ]
         )
 
     @property

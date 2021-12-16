@@ -14,6 +14,7 @@ app = cdk.App()
 
 vpc_stack = VpcStack(app, 'VpcStack', env=env)
 ec2_stack = Ec2Stack(app, 'Ec2Stack', vpc=vpc_stack.vpc, env=env)
-SsmDocumentStack(app, 'CdkSsmAnsibleStack', env=env)
+ec2_stack.add_dependency(vpc_stack)
+# ssm_document_stack = SsmDocumentStack(app, 'SsmAnsibleStack', env=env)
 
 app.synth()
