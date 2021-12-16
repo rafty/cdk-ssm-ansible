@@ -39,6 +39,7 @@ class Ec2InstanceConstruct(Construct):
 
         # ---------------------------------------
         # IAM Role
+        # Ansible Play Book を S3に置く場合は'AmazonS3ReadOnlyAccess'が必要
         # ---------------------------------------
         role = aws_iam.Role(
             self,
@@ -47,8 +48,8 @@ class Ec2InstanceConstruct(Construct):
             managed_policies=[
                 aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                     'AmazonSSMManagedInstanceCore'),
-                # aws_iam.ManagedPolicy.from_aws_managed_policy_name(
-                #    'AmazonS3ReadOnlyAccess'),
+                aws_iam.ManagedPolicy.from_aws_managed_policy_name(
+                   'AmazonS3ReadOnlyAccess'),
                 aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                     'CloudWatchAgentServerPolicy'),
             ]

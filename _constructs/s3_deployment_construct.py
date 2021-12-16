@@ -16,7 +16,14 @@ class S3DeployConstruct(Construct):
         self._key_prefix = key_prefix
         self._bucket_name = bucket_name
 
+        # ----------------------------------------------------
+        # S3 Bucket
+        # ----------------------------------------------------
         self._bucket = aws_s3.Bucket(self, 'S3BucketConstruct', bucket_name=bucket_name)
+
+        # ----------------------------------------------------
+        # S3 ansible playbook Upload
+        # ----------------------------------------------------
         aws_s3_deployment.BucketDeployment(
             self,
             'AnsiblePlayBookUpload',
