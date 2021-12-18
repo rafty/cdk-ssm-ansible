@@ -18,6 +18,4 @@ vpc_stack = VpcStack(app, 'VpcStack', env=env)
 ec2_stack = Ec2Stack(app, 'Ec2Stack', vpc=vpc_stack.vpc, env=env)
 ec2_stack.add_dependency(vpc_stack)
 
-
-
 app.synth()
