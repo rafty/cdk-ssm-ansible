@@ -48,8 +48,10 @@ class Ec2InstanceConstruct(Construct):
             managed_policies=[
                 aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                     'AmazonSSMManagedInstanceCore'),
+                # aws_iam.ManagedPolicy.from_aws_managed_policy_name(
+                #    'AmazonS3ReadOnlyAccess'),  # EC2 Instance need to access yaml
                 aws_iam.ManagedPolicy.from_aws_managed_policy_name(
-                   'AmazonS3ReadOnlyAccess'),
+                   'AmazonS3FullAccess'),  # EC2 Instance output logs
                 aws_iam.ManagedPolicy.from_aws_managed_policy_name(
                     'CloudWatchAgentServerPolicy'),
             ]

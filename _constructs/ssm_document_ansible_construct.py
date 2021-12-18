@@ -45,43 +45,43 @@ class SsmAnsibleAssociationConstruct(Construct):
                 'play'
             ]
         )
-        ssm_document_parameters = {
-            'SourceType': ['S3'],
-            'SourceInfo': [
-                json.dumps(
-                    {
-                        "path": "https://ygt-ansible-playbook.s3.ap-northeast-1.amazonaws.com/apache/apache.yml"
-                    }
-                )
-            ],
-            'InstallDependencies': ['True'],
-            'PlaybookFile': ['apache.yml'],
-            # 'ExtraVariables': ['SSM=True'],
-            # 'Check': ['False'],
-            # 'Verbose': ['-v']
-        }
+        # ssm_document_parameters = {
+        #     'SourceType': ['S3'],
+        #     'SourceInfo': [
+        #         json.dumps(
+        #             {
+        #                 "path": "https://ygt-ansible-playbook.s3.ap-northeast-1.amazonaws.com/apache/apache.yml"
+        #             }
+        #         )
+        #     ],
+        #     'InstallDependencies': ['True'],
+        #     'PlaybookFile': ['apache.yml'],
+        #     # 'ExtraVariables': ['SSM=True'],
+        #     # 'Check': ['False'],
+        #     # 'Verbose': ['-v']
+        # }
         ssm_ansible = aws_ssm.CfnAssociation(
             self,
             'AnsibleSSMAssociation',
             name='AWS-ApplyAnsiblePlaybooks',
             association_name='AnsibleAssociation',
             targets=[target_ec2_instances],
-            parameters=ssm_document_parameters,
+            # parameters=ssm_document_parameters,
             wait_for_success_timeout_seconds=300,
             output_location=output_location
         )
 
-        # - Parametersを以下に置き換えることは可能か？
-        # ssm_ansible.add_override('Parameters.SourceType', ['S3'])
-        # ssm_ansible.add_override('Parameters.SourceInfo.0', [
-        #     json.dumps(
-        #         {
-        #             'path': f'{ansible_construct.bucket.bucket_website_url}//'
-        #         }
-        #     )
-        # ])
-        # ssm_ansible.add_override('Parameters.InstallDependencies', ['True'])
-        # ssm_ansible.add_override('Parameters.PlaybookFile', ['ansible/playbook.yml'])
-        # ssm_ansible.add_override('Parameters.ExtraVariables', ['SSM=True'])
-        # ssm_ansible.add_override('Parameters.Check', ['False'])
-        # ssm_ansible.add_override('Parameters.Verbose', ['-v'])
+        # Set Parameters
+        ssm_ansible.add_override('Properties.Parameters.SourceType', ['S3'])
+        ssm_ansible.add_override('Properties.Parameters.SourceInfo', [
+            json.dumps(
+                {
+                    'path': "https://ygt-ansible-playbook.s3.ap-northeast-1.amazonaws.com/apache/apache.yml"
+                }
+            )
+        ])
+        ssm_ansible.add_override('Properties.Parameters.InstallDependencies', ['True'])
+        ssm_ansible.add_override('Properties.Parameters.PlaybookFile', ['apache.yml'])
+        ssm_ansible.add_override('Properties.Parameters.ExtraVariables', ['SSM=True'])
+        ssm_ansible.add_override('Properties.Parameters.Check', ['False'])
+        ssm_ansible.add_override('Properties.Parameters.Verbose', ['-vvvv'])
